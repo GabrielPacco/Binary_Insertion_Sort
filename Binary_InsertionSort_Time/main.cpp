@@ -27,37 +27,38 @@ struct Timer
         std::cout << duration.count() << " segundos" << std::endl;
     }
 };
-int binarySearch(int a[], int item, int low, int high)
+int binarySearch(int A[], int low, int high, int key)
 {
-    if (high <= low)
-        return (item > a[low]) ? (low + 1) : low;
-    int mid = (low + high) / 2;
-    if (item == a[mid])
+    if (low >= high)
+        return (key > A[low]) ? (low + 1) : low;
+    int mid = (high + low) / 2;
+    if (A[mid] == key)
         return mid + 1;
-    if (item > a[mid])
-        return binarySearch(a, item, mid + 1, high);
-    return binarySearch(a, item, low, mid - 1);
+    if (A[mid] > key)
+        return binarySearch(A, low, mid - 1, key);
+    return binarySearch(A, mid + 1, high, key);
 }
-// Function to sort an array a[] of size 'n'
-void insertionSort(int a[], int n)
+void insertionSort(int A[], int n)
 {
     int i, pos, j, key;
+ 
     for (i = 1; i < n; ++i)
     {
         j = i - 1;
-        key = a[i];
-        // find location where key should be inseretd
-        pos = binarySearch(a, key, 0, j);
-        // Move all elements after location to create space
+        key = A[i];
+ 
+        // encontrar el lugar donde se debe insertar la llave
+        pos = binarySearch(A, 0, j, key);
+ 
+        // Mover todos los elementos después de la ubicación para crear espacio
         while (j >= pos)
         {
-            a[j + 1] = a[j];
+            A[j + 1] = A[j];
             j--;
         }
-        a[j + 1] = key;
+        A[j + 1] = key;
     }
 }
-// Driver Code
 int main()
 {
     srand((unsigned int)time(NULL));
@@ -83,4 +84,3 @@ int main()
     }
     return 0;
 }
-// this code is contribution by shivanisinghss2110
