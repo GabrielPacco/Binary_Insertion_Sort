@@ -12,6 +12,7 @@
 #include <time.h>
 #include <vector>
 using namespace std;
+
 struct Timer
 {
     std::chrono::system_clock::time_point m_start;
@@ -41,8 +42,6 @@ int binarySearch(int a[], int item, int low, int high)
 void insertionSort(int a[], int n)
 {
     int i, pos, j, key;
-    ofstream archivo("num_ordenado.txt");
-    archivo << "Cantidad de elementos: " << n << endl;
     for (i = 1; i < n; ++i)
     {
         j = i - 1;
@@ -57,32 +56,31 @@ void insertionSort(int a[], int n)
         }
         a[j + 1] = key;
     }
-    for (int i = 0; i < n; i++)
-    {
-        archivo << a[i] << endl;
-    }
-    archivo.close();
 }
 // Driver Code
 int main()
 {
-    ofstream archivo("num_aleatorios.txt");
     srand((unsigned int)time(NULL));
     int random;
     vector<int> arr;
     int cant = 1000;
-    archivo << "Cantidad de elementos: " << cant*9 << endl;
-    for (int j = 0; j < cant*9; j++)
+    for (int i = 0; i < 100; i++)
     {
-        random = rand() % cant*9;
-        arr.push_back(random);
-        archivo << random << endl;
+        ofstream archivo("random.txt");
+        archivo << "Cantidad de elementos: " << cant << endl;
+        for (int j = 0; j < cant; j++)
+        {
+            random = rand() % cant*2;
+            arr.push_back(random);
+            archivo << random << " "<< endl;
+        }
+        cout << "Tiempo con " << cant << " elementos: ";
+        Timer t;
+        insertionSort(arr.data(), cant);
+        arr.clear();
+        cant += 2000;
+        archivo.close();
     }
-    cout << "Tiempo con " << cant*9 << " elementos: ";
-    Timer t;
-    insertionSort(arr.data(), cant*9);
-    arr.clear();
-    cant += 2000;
-    archivo.close();
     return 0;
 }
+// this code is contribution by shivanisinghss2110
